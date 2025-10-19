@@ -3,7 +3,7 @@
 ### Author: Mason Lee
 
 This is a link to my map.
-<>
+<https://mlee37.github.io/midterm/>
 
 I downloaded data from iNaturalist.com. I chose only observations in Wyoming and only research-grade observations to narrow down the amount of data I was working with. I chose to download data for two species, the North American River Otter and the North American Beaver. I chose these species because they are both native, semi-aquatic mammals. They occupy similar habitats, although beavers can be found in marshier habitat and at higher elevations than river otters. I chose not to represent muskrats, another semi-aquatic mammal, because they are not considered keystone or ecosystem engineer species like river otters and beavers are. 
 
