@@ -1,0 +1,283 @@
+I tried creating markers using code from the Google API documentation for advanced markers, and combining that with the code that I know worked for heatmaps to loop through my JSON. It did not work.
+Here's the code I was attempting to use, when I was trying with just one of my JSON arrays. I altered my JSON to match the way the Google API documentation wrote it. 
+I'd really love to get feedback on why it didn't work. I thought I was onto something and was disappointed it failed. I want to actually learn this stuff!
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Midterm Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./index.js"></script>
+  </head>
+  <body>
+      <style>
+          #map {
+  height: 100%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+#floating-panel {
+  background-color: #fff;
+  border: 1px solid #999;
+  left: 25%;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+}
+      </style>
+    <div id="floating-panel">
+      <button id="toggle-heatmap">North American Beaver</button>
+      <button id="toggle-heatmap2">North American River Otter</button>
+    
+    </div>
+    <div id="map"></div>
+    <script>
+
+async function initMap() {
+    const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+    
+    const myLatlng = { lat: 43.0760, lng: -107.2903  };
+
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 6,
+      center: myLatlng,
+      mapId: "35a95d5268d4a21e213e17e1",
+    });
+
+const wh = [{position: {	lat:	43.90812062, lng:	-110.4034724	},	species:"	North American River Otter	", date:"	7/27/2008	"},
+{position: {	lat:	43.90042861, lng:	-110.7796909	},	species:"	North American River Otter	", date:"	8/25/2010	"},
+{position: {	lat:	44.04827394	,lng:	-110.6989109	},	species:"	North American River Otter	", date:"	8/16/2012	"},
+{position: {	lat:	44.90511887	,lng:	-110.2582857	},	species:"	North American River Otter	", date:"	8/22/2005	"},
+{position: {	lat:	44.64372294	,lng:	-110.5947893	},	species:"	North American River Otter	", date:"	2/3/2006	"},
+{position: {	lat:	43.74430581	,lng:	-110.5475507	},	species:"	North American River Otter	", date:"	1/28/2014	"},
+{position: {	lat:	43.81866702	,lng:	-110.5244252	},	species:"	North American River Otter	", date:"	5/25/2014	"},
+{position: {	lat:	44.34098885	,lng:	-110.4845565	},	species:"	North American River Otter	", date:"	9/4/2013	"},
+{position: {	lat:	43.94856233	,lng:	-110.549249	},	species:"	North American River Otter	", date:"	8/4/2009	"},
+{position: {	lat:	44.75109063	,lng:	-110.6556861	},	species:"	North American River Otter	", date:"	5/2/2014	"},
+{position: {	lat:	44.86595656	,lng:	-110.0161088	},	species:"	North American River Otter	", date:"	6/28/2010	"},
+{position: {	lat:	44.03763741	,lng:	-110.7584633	},	species:"	North American River Otter	", date:"	8/1/2016	"},
+{position: {	lat:	43.80794821	,lng:	-110.6870242	},	species:"	North American River Otter	", date:"	8/23/2017	"},
+{position: {	lat:	44.82339218	,lng:	-110.108805	},	species:"	North American River Otter	", date:"	6/11/2009	"},
+{position: {	lat:	44.96798218	,lng:	-110.5399275	},	species:"	North American River Otter	", date:"	7/12/2012	"},
+{position: {	lat:	44.43822504	,lng:	-110.6945193	},	species:"	North American River Otter	", date:"	8/25/2016	"},
+{position: {	lat:	44.84612098	,lng:	-110.1479771	},	species:"	North American River Otter	", date:"	6/17/2008	"},
+{position: {	lat:	43.79010707	,lng:	-110.7277043	},	species:"	North American River Otter	", date:"	7/27/2008	"},
+{position: {	lat:	43.95961361	,lng:	-110.5607253	},	species:"	North American River Otter	", date:"	8/29/2018	"},
+{position: {	lat:	44.48710126	,lng:	-110.4179605	},	species:"	North American River Otter	", date:"	9/6/2016	"},
+{position: {	lat:	43.96559384	,lng:	-110.4024416	},	species:"	North American River Otter	", date:"	10/6/2018	"},
+{position: {	lat:	43.66114157	,lng:	-110.7757954	},	species:"	North American River Otter	", date:"	6/21/2018	"},
+{position: {	lat:	43.79656558	,lng:	-110.6039167	},	species:"	North American River Otter	", date:"	5/19/2007	"},
+{position: {	lat:	44.94494798	,lng:	-110.3167733	},	species:"	North American River Otter	", date:"	12/28/2018	"},
+{position: {	lat:	44.68163369	,lng:	-110.5640287	},	species:"	North American River Otter	", date:"	1/6/2019	"},
+{position: {	lat:	44.93257216	,lng:	-110.3345813	},	species:"	North American River Otter	", date:"	7/25/2016	"},
+{position: {	lat:	44.55211615	,lng:	-110.2384434	},	species:"	North American River Otter	", date:"	6/19/2017	"},
+{position: {	lat:	44.77515892	,lng:	-110.8055219	},	species:"	North American River Otter	", date:"	7/4/2019	"},
+{position: {	lat:	44.71476098	,lng:	-110.4266911	},	species:"	North American River Otter	", date:"	5/16/2010	"},
+{position: {	lat:	44.70716733	,lng:	-110.5050435	},	species:"	North American River Otter	", date:"	1/19/2019	"},
+{position: {	lat:	44.95875356	,lng:	-110.7353711	},	species:"	North American River Otter	", date:"	5/8/2004	"},
+{position: {	lat:	43.52827981	,lng:	-109.5334488	},	species:"	North American River Otter	", date:"	5/8/2020	"},
+{position: {	lat:	44.88516564	,lng:	-110.353164	},	species:"	North American River Otter	", date:"	7/11/2020	"},
+{position: {	lat:	43.66976886	,lng:	-110.6977069	},	species:"	North American River Otter	", date:"	9/28/2005	"},
+{position: {	lat:	43.91576959	,lng:	-110.5679235	},	species:"	North American River Otter	", date:"	8/5/2009	"},
+{position: {	lat:	43.96702499	,lng:	-110.5321838	},	species:"	North American River Otter	", date:"	9/13/2020	"},
+{position: {	lat:	44.35837963	,lng:	-110.6396053	},	species:"	North American River Otter	", date:"	9/12/2020	"},
+{position: {	lat:	44.91057933	,lng:	-110.3131237	},	species:"	North American River Otter	", date:"	9/17/2020	"},
+{position: {	lat:	43.85560888	,lng:	-110.4025006	},	species:"	North American River Otter	", date:"	10/8/2020	"},
+{position: {	lat:	44.99365472	,lng:	-110.1302977	},	species:"	North American River Otter	", date:"	12/22/2011	"},
+{position: {	lat:	44.55314955	,lng:	-110.502763	},	species:"	North American River Otter	", date:"	8/18/2010	"},
+{position: {	lat:	44.56496665	,lng:	-110.4343198	},	species:"	North American River Otter	", date:"	10/6/2011	"},
+{position: {	lat:	43.20630796	,lng:	-109.8662702	},	species:"	North American River Otter	", date:"	11/5/2019	"},
+{position: {	lat:	44.1963505	,lng:	-110.6185014	},	species:"	North American River Otter	", date:"	1/9/2021	"},
+{position: {	lat:	44.1674719	,lng:	-110.7852516	},	species:"	North American River Otter	", date:"	5/16/2021	"},
+{position: {	lat:	41.95935435	,lng:	-109.9030204	},	species:"	North American River Otter	", date:"	6/11/2021	"},
+{position: {	lat:	44.51268315	,lng:	-110.5667831	},	species:"	North American River Otter	", date:"	7/13/2012	"},
+{position: {	lat:	43.86809171	,lng:	-110.523539	},	species:"	North American River Otter	", date:"	8/3/2021	"},
+{position: {	lat:	43.83582057	,lng:	-110.7219443	},	species:"	North American River Otter	", date:"	7/27/2021	"},
+{position: {	lat:	43.86608373	,lng:	-110.5947753	},	species:"	North American River Otter	", date:"	9/11/2018	"},
+{position: {	lat:	43.91513091	,lng:	-110.5685682	},	species:"	North American River Otter	", date:"	8/13/2021	"},
+{position: {	lat:	44.40235187	,lng:	-110.9952763	},	species:"	North American River Otter	", date:"	12/29/2021	"},
+{position: {	lat:	44.9805674	,lng:	-110.064677	},	species:"	North American River Otter	", date:"	2/21/2022	"},
+{position: {	lat:	44.23633623	,lng:	-110.7396694	},	species:"	North American River Otter	", date:"	2/15/2022	"},
+{position: {	lat:	44.71200959	,lng:	-110.5996815	},	species:"	North American River Otter	", date:"	2/24/2022	"},
+{position: {	lat:	44.38318236	,lng:	-110.9340236	},	species:"	North American River Otter	", date:"	1/31/2012	"},
+{position: {	lat:	44.55561987	,lng:	-110.8690054	},	species:"	North American River Otter	", date:"	3/14/2012	"},
+{position: {	lat:	43.734092	,lng:	-110.4706104	},	species:"	North American River Otter	", date:"	4/5/2022	"},
+{position: {	lat:	44.93508322	,lng:	-110.1995198	},	species:"	North American River Otter	", date:"	6/1/2013	"},
+{position: {	lat:	43.82523124	,lng:	-110.5919695	},	species:"	North American River Otter	", date:"	8/9/2022	"},
+{position: {	lat:	44.99273635	,lng:	-110.7099187	},	species:"	North American River Otter	", date:"	12/31/2012	"},
+{position: {	lat:	44.4432326	,lng:	-110.4788601	},	species:"	North American River Otter	", date:"	8/21/2021	"},
+{position: {	lat:	44.56562535	,lng:	-110.3387711	},	species:"	North American River Otter	", date:"	9/13/2022	"},
+{position: {	lat:	43.8617073	,lng:	-110.490644	},	species:"	North American River Otter	", date:"	10/7/2022	"},
+{position: {	lat:	44.76947106	,lng:	-110.413149	},	species:"	North American River Otter	", date:"	10/8/2022	"},
+{position: {	lat:	44.51351994	,lng:	-110.2602454	},	species:"	North American River Otter	", date:"	10/8/2022	"},
+{position: {	lat:	44.43573353	,lng:	-110.3976762	},	species:"	North American River Otter	", date:"	10/16/2022	"},
+{position: {	lat:	44.96725514	,lng:	-110.035297	},	species:"	North American River Otter	", date:"	7/18/2010	"},
+{position: {	lat:	44.93408866	,lng:	-110.0854811	},	species:"	North American River Otter	", date:"	7/10/2012	"},
+{position: {	lat:	44.86711397	,lng:	-110.3100156	},	species:"	North American River Otter	", date:"	5/22/2022	"},
+{position: {	lat:	44.4947293	,lng:	-109.608844	},	species:"	North American River Otter	", date:"	12/31/2022	"},
+{position: {	lat:	44.92927652	,lng:	-110.1553271	},	species:"	North American River Otter	", date:"	7/21/2012	"},
+{position: {	lat:	44.80103193	,lng:	-110.1894836	},	species:"	North American River Otter	", date:"	7/22/2010	"},
+{position: {	lat:	44.79941789	,lng:	-110.4224688	},	species:"	North American River Otter	", date:"	1/11/2023	"},
+{position: {	lat:	44.61857681	,lng:	-110.4834141	},	species:"	North American River Otter	", date:"	1/5/2023	"},
+{position: {	lat:	44.63788065	,lng:	-110.5868344	},	species:"	North American River Otter	", date:"	1/7/2023	"},
+{position: {	lat:	43.72833161	,lng:	-110.6850662	},	species:"	North American River Otter	", date:"	1/31/2023	"},
+{position: {	lat:	44.51668015	,lng:	-110.5016609	},	species:"	North American River Otter	", date:"	9/18/2017	"},
+{position: {	lat:	44.51045777	,lng:	-109.9550508	},	species:"	North American River Otter	", date:"	6/20/2010	"},
+{position: {	lat:	43.84839243	,lng:	-110.6277881	},	species:"	North American River Otter	", date:"	9/16/2018	"},
+{position: {	lat:	43.56642507	,lng:	-110.9279768	},	species:"	North American River Otter	", date:"	10/4/2008	"},
+{position: {	lat:	44.51324811	,lng:	-110.2874794	},	species:"	North American River Otter	", date:"	9/1/2006	"},
+{position: {	lat:	43.52559398	,lng:	-110.7319653	},	species:"	North American River Otter	", date:"	12/1/2019	"},
+{position: {	lat:	44.83530146	,lng:	-110.089699	},	species:"	North American River Otter	", date:"	1/26/2018	"},
+{position: {	lat:	44.64388776	,lng:	-110.565938	},	species:"	North American River Otter	", date:"	5/10/2023	"},
+{position: {	lat:	44.4369091	,lng:	-110.3499468	},	species:"	North American River Otter	", date:"	5/10/2023	"},
+{position: {	lat:	44.99995013	,lng:	-110.1402405	},	species:"	North American River Otter	", date:"	5/28/2023	"},
+{position: {	lat:	41.41612768	,lng:	-109.4558012	},	species:"	North American River Otter	", date:"	3/4/2023	"},
+{position: {	lat:	44.99282493	,lng:	-110.099691	},	species:"	North American River Otter	", date:"	6/3/2023	"},
+{position: {	lat:	43.83425568	,lng:	-110.4559472	},	species:"	North American River Otter	", date:"	6/20/2023	"},
+{position: {	lat:	44.51143263	,lng:	-110.4963509	},	species:"	North American River Otter	", date:"	5/19/2023	"},
+{position: {	lat:	43.63893921	,lng:	-110.7537215	},	species:"	North American River Otter	", date:"	7/13/2023	"},
+{position: {	lat:	44.67149313	,lng:	-110.415107	},	species:"	North American River Otter	", date:"	7/27/2023	"},
+{position: {	lat:	43.64841138	,lng:	-110.774067	},	species:"	North American River Otter	", date:"	9/11/2015	"},
+{position: {	lat:	43.99793684	,lng:	-110.5254018	},	species:"	North American River Otter	", date:"	9/13/2022	"},
+{position: {	lat:	41.80012501	,lng:	-109.9448821	},	species:"	North American River Otter	", date:"	8/23/2023	"},
+{position: {	lat:	44.21944534	,lng:	-110.621986	},	species:"	North American River Otter	", date:"	9/20/2016	"},
+{position: {	lat:	43.9408306	,lng:	-110.4081165	},	species:"	North American River Otter	", date:"	8/21/2023	"},
+{position: {	lat:	43.72471223	,lng:	-110.7865975	},	species:"	North American River Otter	", date:"	8/29/2007	"},
+{position: {	lat:	44.0407838	,lng:	-110.6768368	},	species:"	North American River Otter	", date:"	6/11/2023	"},
+{position: {	lat:	44.89529781	,lng:	-110.223203	},	species:"	North American River Otter	", date:"	6/7/2013	"},
+{position: {	lat:	44.64349547	,lng:	-110.5037761	},	species:"	North American River Otter	", date:"	6/18/2019	"},
+{position: {	lat:	43.9365244	,lng:	-110.5646208	},	species:"	North American River Otter	", date:"	1/3/2024	"},
+{position: {	lat:	43.69493734	,lng:	-110.5451035	},	species:"	North American River Otter	", date:"	2/18/2024	"},
+{position: {	lat:	43.50863986	,lng:	-110.6601277	},	species:"	North American River Otter	", date:"	12/27/2019	"},
+{position: {	lat:	41.59678989	,lng:	-109.4079079	},	species:"	North American River Otter	", date:"	4/23/2024	"},
+{position: {	lat:	44.89815539	,lng:	-110.7311577	},	species:"	North American River Otter	", date:"	2/27/2020	"},
+{position: {	lat:	44.97291268	,lng:	-111.1844007	},	species:"	North American River Otter	", date:"	5/12/2024	"},
+{position: {	lat:	42.79103972	,lng:	-108.8929224	},	species:"	North American River Otter	", date:"	5/18/2024	"},
+{position: {	lat:	44.19479393	,lng:	-110.6217105	},	species:"	North American River Otter	", date:"	8/1/2020	"},
+{position: {	lat:	44.62978117	,lng:	-110.552428	},	species:"	North American River Otter	", date:"	8/28/2014	"},
+{position: {	lat:	43.8296036	,lng:	-110.4925343	},	species:"	North American River Otter	", date:"	6/19/2024	"},
+{position: {	lat:	44.55274668	,lng:	-110.425384	},	species:"	North American River Otter	", date:"	2/6/2004	"},
+{position: {	lat:	40.82999215	,lng:	-109.6848566	},	species:"	North American River Otter	", date:"	7/5/2024	"},
+{position: {	lat:	43.93250627	,lng:	-110.428915	},	species:"	North American River Otter	", date:"	7/25/2024	"},
+{position: {	lat:	42.30252902	,lng:	-109.5586157	},	species:"	North American River Otter	", date:"	8/2/2024	"},
+{position: {	lat:	42.32576554	,lng:	-109.4222914	},	species:"	North American River Otter	", date:"	8/2/2024	"},
+{position: {	lat:	43.84108002	,lng:	-110.5030238	},	species:"	North American River Otter	", date:"	7/27/2024	"},
+{position: {	lat:	43.87496655	,lng:	-110.5113886	},	species:"	North American River Otter	", date:"	6/1/2023	"},
+{position: {	lat:	43.94792669	,lng:	-110.4617325	},	species:"	North American River Otter	", date:"	8/24/2024	"},
+{position: {	lat:	42.68828487	,lng:	-108.9112598	},	species:"	North American River Otter	", date:"	8/30/2024	"},
+{position: {	lat:	44.61402058	,lng:	-110.4834423	},	species:"	North American River Otter	", date:"	8/22/2024	"},
+{position: {	lat:	44.44312594	,lng:	-110.867173	},	species:"	North American River Otter	", date:"	8/29/2019	"},
+{position: {	lat:	43.93071213	,lng:	-110.5808347	},	species:"	North American River Otter	", date:"	8/8/2024	"},
+{position: {	lat:	44.04868493	,lng:	-110.7046782	},	species:"	North American River Otter	", date:"	9/1/2024	"},
+{position: {	lat:	44.00959542	,lng:	-110.6547727	},	species:"	North American River Otter	", date:"	9/1/2024	"},
+{position: {	lat:	44.11564624	,lng:	-110.7627118	},	species:"	North American River Otter	", date:"	9/1/2024	"},
+{position: {	lat:	44.75451052	,lng:	-110.4422231	},	species:"	North American River Otter	", date:"	9/8/2024	"},
+{position: {	lat:	43.93105271	,lng:	-110.524384	},	species:"	North American River Otter	", date:"	9/6/2024	"},
+{position: {	lat:	44.1865687	,lng:	-110.6573448	},	species:"	North American River Otter	", date:"	8/27/2024	"},
+{position: {	lat:	44.46370038	,lng:	-110.1169334	},	species:"	North American River Otter	", date:"	9/19/2024	"},
+{position: {	lat:	44.9655785	,lng:	-110.3311648	},	species:"	North American River Otter	", date:"	9/21/2024	"},
+{position: {	lat:	43.67385911	,lng:	-110.6823386	},	species:"	North American River Otter	", date:"	9/21/2024	"},
+{position: {	lat:	43.77410058	,lng:	-110.6801568	},	species:"	North American River Otter	", date:"	10/4/2024	"},
+{position: {	lat:	44.55255443	,lng:	-110.3056543	},	species:"	North American River Otter	", date:"	9/23/2024	"},
+{position: {	lat:	44.88941451	,lng:	-110.2940805	},	species:"	North American River Otter	", date:"	7/21/2008	"},
+{position: {	lat:	44.45107028	,lng:	-110.2627062	},	species:"	North American River Otter	", date:"	10/10/2009	"},
+{position: {	lat:	43.6129978	,lng:	-110.6771321	},	species:"	North American River Otter	", date:"	10/20/2015	"},
+{position: {	lat:	43.61625037	,lng:	-110.682513	},	species:"	North American River Otter	", date:"	10/20/2015	"},
+{position: {	lat:	43.89614038	,lng:	-110.4573618	},	species:"	North American River Otter	", date:"	10/25/2024	"},
+{position: {	lat:	44.45095227	,lng:	-110.4592874	},	species:"	North American River Otter	", date:"	8/23/2024	"},
+{position: {	lat:	43.94000779	,lng:	-110.4377488	},	species:"	North American River Otter	", date:"	10/26/2024	"},
+{position: {	lat:	43.76731677	,lng:	-110.7496092	},	species:"	North American River Otter	", date:"	9/12/2024	"},
+{position: {	lat:	44.21654374	,lng:	-110.759036	},	species:"	North American River Otter	", date:"	9/14/2007	"},
+{position: {	lat:	44.78786238	,lng:	-110.9503105	},	species:"	North American River Otter	", date:"	6/12/2024	"},
+{position: {	lat:	43.8429019	,lng:	-110.464563	},	species:"	North American River Otter	", date:"	8/22/2024	"},
+{position: {	lat:	41.57576206	,lng:	-109.4752725	},	species:"	North American River Otter	", date:"	1/24/2025	"},
+{position: {	lat:	44.91215519	,lng:	-110.1977402	},	species:"	North American River Otter	", date:"	7/8/2011	"},
+{position: {	lat:	43.12168357	,lng:	-110.9115064	},	species:"	North American River Otter	", date:"	10/5/2022	"},
+{position: {	lat:	44.65321119	,lng:	-110.4314316	},	species:"	North American River Otter	", date:"	6/30/2010	"},
+{position: {	lat:	42.93423642	,lng:	-108.7886436	},	species:"	North American River Otter	", date:"	4/13/2025	"},
+{position: {	lat:	43.63067599	,lng:	-109.6192636	},	species:"	North American River Otter	", date:"	3/26/2025	"},
+{position: {	lat:	44.45343561	,lng:	-110.3207445	},	species:"	North American River Otter	", date:"	5/7/2025	"},
+{position: {	lat:	43.54210083	,lng:	-110.7485907	},	species:"	North American River Otter	", date:"	5/21/2025	"},
+{position: {	lat:	43.97848164	,lng:	-110.4154213	},	species:"	North American River Otter	", date:"	5/25/2025	"},
+{position: {	lat:	43.93557369	,lng:	-110.4734477	},	species:"	North American River Otter	", date:"	10/11/2022	"},
+{position: {	lat:	44.57991448	,lng:	-110.9533578	},	species:"	North American River Otter	", date:"	6/4/2025	"},
+{position: {	lat:	41.42907362	,lng:	-109.516726	},	species:"	North American River Otter	", date:"	7/8/2025	"},
+{position: {	lat:	43.85687135	,lng:	-110.4970355	},	species:"	North American River Otter	", date:"	7/2/2025	"},
+{position: {	lat:	43.51234039	,lng:	-110.3153545	},	species:"	North American River Otter	", date:"	7/16/2025	"},
+{position: {	lat:	44.6348398	,lng:	-110.4179646	},	species:"	North American River Otter	", date:"	9/3/2025	"},
+{position: {	lat:	43.93890685	,lng:	-110.5122322	},	species:"	North American River Otter	", date:"	9/14/2025	"},
+{position: {	lat:	44.84112367	,lng:	-109.7910528	},	species:"	North American River Otter	", date:"	9/17/2025	"},
+{position: {	lat:	43.86550527	,lng:	-110.4713318	},	species:"	North American River Otter	", date:"	9/30/2025	"},
+{position: {	lat:	43.95067408	,lng:	-110.4241083	},	species:"	North American River Otter	", date:"	9/18/2025	"},
+{position: {	lat:	44.54006752	,lng:	-110.9215657	},	species:"	North American River Otter	", date:"	10/1/2025	"},
+];
+
+// This is the code I tried straight from the Google documentation
+    const infoWindow = new google.maps.InfoWindow();
+    // Create the markers.
+    wh.forEach(({ position, species }, i) => {
+        const pin = new PinElement({
+            glyph: `${i + 1}`,
+            scale: 1.5,
+        });
+       
+        });
+       
+        marker.addListener('click', ({ domEvent, latLng }) => {
+            const { target } = domEvent;
+            infoWindow.close();
+            infoWindow.setContent(marker.species);
+            infoWindow.open(marker.map, marker);
+        });
+
+
+//then, i tried this code which is a mashup of the google help documentation and the code that worked for the heatmap, instead of the above. Neither worked.
+ var markers2 =  new AdvancedMarkerElement({
+    map,
+    position: getPoints2(),
+    content: pin.element,
+            gmpClickable: true,
+    });
+
+function getPoints2() {
+    var points = []
+    for(var i=0; i<wh.length; i++){
+        points.push(new google.maps.LatLng(wh[i].lat, wh[i].lng))
+    }
+  return points
+}
+
+}
+    </script>
+  <script async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaSQFwfAclwdZ3K1WUTErj5R9Wdj5Fk8g&loading=async&libraries=visualization&callback=initMap">
+</script>
+
+  </body>
+</html>
